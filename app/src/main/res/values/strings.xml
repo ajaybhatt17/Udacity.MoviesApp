@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MoviesApp</string>
+
+    <string name="menu.item.popularity">Most Popular</string>
+    <string name="menu.item.release_date">Latest Release</string>
+    <string name="menu.item.highest_rated">Top Rated</string>
+
+    <string name="movie_detail.release_date">Releasing on %1$s</string>
+    <string name="movie_detail.rating">Rating : %1$s</string>
+</resources>
