@@ -5,54 +5,71 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/movie_back"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/movie_detail_image_height"
-            android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/movie_back"
-            android:background="@color/general_white_alpha"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_16"
-            android:paddingRight="@dimen/spacing_16"
-            android:paddingTop="@dimen/spacing_8"
-            android:paddingBottom="@dimen/spacing_8">
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/movie_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/movie_detail_image_height"
+                    android:scaleType="fitXY"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/movie_back"
+                    android:background="@color/general_white_alpha"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/spacing_8"
+                    android:paddingLeft="@dimen/spacing_16"
+                    android:paddingRight="@dimen/spacing_16"
+                    android:paddingTop="@dimen/spacing_8">
+
+                    <TextView
+                        android:id="@+id/movie_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/font_large"/>
+
+                    <TextView
+                        android:id="@+id/movie_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/font_large"/>
+
+                    <TextView
+                        android:id="@+id/movie_releasing_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="@dimen/font_large"/>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
             <TextView
-                android:id="@+id/movie_title"
+                android:id="@+id/movie_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_text_color"
-                android:textSize="@dimen/font_large"/>
-            <TextView
-                android:id="@+id/movie_rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text_color"
-                android:textSize="@dimen/font_large"/>
-            <TextView
-                android:id="@+id/movie_releasing_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text_color"
-                android:textSize="@dimen/font_large"/>
+                android:padding="@dimen/spacing_16"
+                android:textColor="@color/primary_text_color"/>
+
         </LinearLayout>
 
+    </ScrollView>
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/movie_overview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_16"
-        android:textColor="@color/primary_text_color"/>
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ajaybhatt.moviesapp.MyApplication;
 import com.ajaybhatt.moviesapp.R;
 import com.ajaybhatt.moviesapp.models.MovieModel;
 import com.bumptech.glide.Glide;
@@ -40,9 +41,14 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.layout_movie_detail);
         ButterKnife.bind(this);
 
-        movieModel = EventBus.getDefault().removeStickyEvent(MovieModel.class);
+        if (savedInstanceState == null) {
+            movieModel = EventBus.getDefault().removeStickyEvent(MovieModel.class);
+            ((MyApplication) getApplication()).setMovieModel(movieModel);
+        } else {
+            movieModel = ((MyApplication) getApplication()).getMovieModel();
+        }
 
-        if(movieModel==null) {
+        if (movieModel == null) {
             onBackPressed();
             return;
         }
