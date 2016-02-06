@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/movie_back"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.ajaybhatt.moviesapp.tools.BindingAdapters"/>
+        <variable
+            name="movie"
+            type="com.ajaybhatt.moviesapp.models.MovieModel"/>
+    </data>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_item_image_height"
-        android:scaleType="fitXY"/>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_item_detail_height"
-        android:layout_alignParentBottom="true"
-        android:background="@color/general_white_alpha">
-        <TextView
-            android:id="@+id/movie_title"
+        <ImageView
+            android:id="@+id/movie_back"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_8"
-            android:textColor="@color/primary_text_color"
-            android:textSize="@dimen/font_large"/>
-    </LinearLayout>
+            android:layout_height="@dimen/movie_item_image_height"
+            android:scaleType="fitXY"
+            app:imageUrl="@{movie.smallPosterPath}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/movie_item_detail_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/general_white_alpha">
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_8"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/font_large"
+                android:text="@{movie.title}"/>
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</layout>
+

@@ -1,11 +1,15 @@
 package com.ajaybhatt.moviesapp.models;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.ajaybhatt.moviesapp.BR;
 import com.ajaybhatt.moviesapp.tools.Constants;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MovieModel {
+public class MovieModel extends BaseObservable {
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -54,7 +58,7 @@ public class MovieModel {
     }
 
     public String getSmallPosterPath() {
-        return "w185/"+posterPath;
+        return Constants.IMAGE_BASE_URL+"w185/"+posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -117,12 +121,14 @@ public class MovieModel {
         this.originalLanguage = originalLanguage;
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+        notifyPropertyChanged(BR.title);
     }
 
     public String getBackdropPath() {
