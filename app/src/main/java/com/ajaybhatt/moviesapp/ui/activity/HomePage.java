@@ -13,9 +13,12 @@ import com.ajaybhatt.moviesapp.R;
 import com.ajaybhatt.moviesapp.models.DiscoverModel;
 import com.ajaybhatt.moviesapp.models.MovieModel;
 import com.ajaybhatt.moviesapp.presenter.HomePresenter;
+import com.ajaybhatt.moviesapp.tools.DatabaseSource;
 import com.ajaybhatt.moviesapp.tools.ViewUtils;
 import com.ajaybhatt.moviesapp.ui.adapter.MovieAdapter;
 import com.ajaybhatt.moviesapp.ui.view.HomeView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +37,8 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
     @Bind(R.id.moviesList)
     protected GridView movieGridView;
 
+    private MovieAdapter movieAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +55,15 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
 
     @Override
     public void showMovies(DiscoverModel discoverModel) {
-        MovieAdapter movieAdapter = new MovieAdapter(getApplicationContext(), discoverModel.getMovies());
-        movieGridView.setAdapter(movieAdapter);
-        movieGridView.setOnItemClickListener(this);
+        if (movieAdapter == null) {
+            movieAdapter = new MovieAdapter(getApplicationContext(), discoverModel.getMovies());
+            movieGridView.setAdapter(movieAdapter);
+            movieGridView.setOnItemClickListener(this);
+        } else {
+            movieAdapter.clear();
+            movieAdapter.addAll(discoverModel.getMovies());
+            movieAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -83,6 +94,13 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
             case R.id.item_highest_rated:
                 homePresenter.getDiscover(FILTER_HIGHEST_RATED, ORDER_DESC);
                 break;
+            case R.id.item_favourite:
+                DiscoverModel discoverModel = new DiscoverModel();
+                List<MovieModel> movieModels = DatabaseSource.getObjects(this, "favourite_movies", MovieModel.class);
+                discoverModel.setMovies(movieModels);
+                showMovies(discoverModel);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }

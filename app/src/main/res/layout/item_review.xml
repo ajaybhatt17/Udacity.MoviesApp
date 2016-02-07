@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.ajaybhatt.moviesapp.tools.BindingAdapters"/>
+
+        <variable
+            name="review"
+            type="com.ajaybhatt.moviesapp.models.ReviewResult"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_16">
+
+        <TextView
+            android:id="@+id/review_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text='@{review.content}'/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/review_id"
+            android:gravity="end"
+            android:text='@{review.author}'
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+</layout>
+
