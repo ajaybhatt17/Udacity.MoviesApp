@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="com.ajaybhatt.moviesapp.tools.BindingAdapters"/>
-        <variable name="movie" type="com.ajaybhatt.moviesapp.models.MovieModel"/>
+        <import type="android.view.View" />
+        <variable
+            name="movie"
+            type="com.ajaybhatt.moviesapp.models.MovieModel"/>
     </data>
 
     <LinearLayout
@@ -12,14 +17,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="@{movie!=null ? View.VISIBLE : View.GONE}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -30,7 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/movie_detail_image_height"
                         android:scaleType="fitXY"
-                        app:imageUrl="@{movie.largeBackdropPath}"/>
+                        bind:imageUrl="@{movie.largeBackdropPath}"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -47,41 +53,104 @@
                             android:id="@+id/movie_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{movie.title}"
                             android:textColor="@color/primary_text_color"
-                            android:textSize="@dimen/font_large"
-                            android:text="@{movie.title}"/>
+                            android:textSize="@dimen/font_large"/>
 
                         <TextView
                             android:id="@+id/movie_rating"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text='@{"Rating : "+ String.valueOf(movie.voteAverage)}'
                             android:textColor="@color/primary_text_color"
-                            android:textSize="@dimen/font_large"
-                            android:text='@{"Rating : "+ String.valueOf(movie.voteAverage)}'/>
+                            android:textSize="@dimen/font_large"/>
 
                         <TextView
                             android:id="@+id/movie_releasing_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text='@{"Release on "+ String.valueOf(movie.releaseDate)}'
                             android:textColor="@color/primary_text_color"
-                            android:textSize="@dimen/font_large"
-                            android:text='@{"Release on "+ String.valueOf(movie.releaseDate)}'/>
+                            android:textSize="@dimen/font_large"/>
+
                     </LinearLayout>
 
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/favouriteButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/colorAccent"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text='@{movie.isFavourite ? "Favourited" : "Mark as Favourite"}'
+                        android:textColor='@{movie.isFavourite ? @color/white : @color/general_white_alpha}'
+                        tools:text="Mark as Favourite"
+                        tools:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="Play Trailer"
+                        android:textColor="@color/white"
+                        bind:searchText='@{movie.title+" Trailer"}'/>
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/movie_overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_16"
-                    android:textColor="@color/primary_text_color"
-                    android:text="@{movie.overview}"/>
+                    android:text="@{movie.overview}"
+                    android:textColor="@color/primary_text_color"/>
+
+                <TextView
+                    android:id="@+id/trailer_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_16"
+                    android:paddingStart="@dimen/spacing_16"
+                    android:text="Trailers"
+                    android:paddingRight="@dimen/spacing_16"
+                    android:paddingEnd="@dimen/spacing_16"
+                    android:textSize="@dimen/font_large"
+                    android:visibility="@{movie.isVideoAvailable ? View.VISIBLE : View.GONE}"
+                    android:textStyle="bold"/>
+
+                <ListView
+                    android:id="@+id/trailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/spacing_16"
+                    android:textSize="@dimen/font_large"
+                    android:text="Reviews"
+                    android:visibility="@{movie.isReviewed ? View.VISIBLE : View.GONE}"
+                    android:textStyle="bold"/>
+
+                <ListView
+                    android:id="@+id/reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 
     </LinearLayout>

@@ -7,6 +7,7 @@ import com.ajaybhatt.moviesapp.BR;
 import com.ajaybhatt.moviesapp.tools.Constants;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieModel extends BaseObservable {
@@ -53,12 +54,34 @@ public class MovieModel extends BaseObservable {
     @SerializedName("vote_average")
     private double voteAverage;
 
+    private List<GenereModel> geners;
+
+    @SerializedName("production_companies")
+    private List<ProductionCompany> productionCompanies = new ArrayList<>();
+
+    @SerializedName("production_countries")
+    private List<ProductionCountry> productionCountries = new ArrayList<>();
+
+    @SerializedName("spoken_languages")
+    private List<SpokenLanguage> spokenLanguages = new ArrayList<>();
+
+    private Reviews reviews = new Reviews();
+
+    private Trailers trailers = new Trailers();
+
+    private Videos videos = new Videos();
+
+    private boolean isFavourite;
+    private boolean isReviewed;
+    private boolean isTrailerAvailable;
+    private boolean isVideoAvailable;
+
     public String getPosterPath() {
         return posterPath;
     }
 
     public String getSmallPosterPath() {
-        return Constants.IMAGE_BASE_URL+"w185/"+posterPath;
+        return Constants.IMAGE_BASE_URL + "w185/" + posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -136,7 +159,7 @@ public class MovieModel extends BaseObservable {
     }
 
     public String getLargeBackdropPath() {
-        return Constants.IMAGE_BASE_URL+"w780/"+backdropPath;
+        return Constants.IMAGE_BASE_URL + "w780/" + backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
@@ -173,5 +196,115 @@ public class MovieModel extends BaseObservable {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    @Bindable
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setIsFavourite(boolean isFavourite) {
+        this.isFavourite = isFavourite;
+        notifyPropertyChanged(BR.favourite);
+    }
+
+    @Bindable
+    public Reviews getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Reviews reviews) {
+        this.reviews = reviews;
+        notifyPropertyChanged(BR.reviews);
+        notifyPropertyChanged(BR.reviewed);
+    }
+
+    public Trailers getTrailers() {
+        return trailers;
+    }
+
+    public void setTrailers(Trailers trailers) {
+        this.trailers = trailers;
+        notifyPropertyChanged(BR.trailerAvailable);
+    }
+
+    public List<GenereModel> getGeners() {
+        return geners;
+    }
+
+    public void setGeners(List<GenereModel> geners) {
+        this.geners = geners;
+    }
+
+    public List<ProductionCompany> getProductionCompanies() {
+        return productionCompanies;
+    }
+
+    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
+        this.productionCompanies = productionCompanies;
+    }
+
+    public List<ProductionCountry> getProductionCountries() {
+        return productionCountries;
+    }
+
+    public void setProductionCountries(List<ProductionCountry> productionCountries) {
+        this.productionCountries = productionCountries;
+    }
+
+    public List<SpokenLanguage> getSpokenLanguages() {
+        return spokenLanguages;
+    }
+
+    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
+        this.spokenLanguages = spokenLanguages;
+    }
+
+    @Bindable
+    public boolean isReviewed() {
+        if (reviews.getResults().size() > 0) return true;
+        return false;
+    }
+
+    public void setIsReviewed(boolean isReviewed) {
+        this.isReviewed = isReviewed;
+        notifyPropertyChanged(BR.reviewed);
+    }
+
+    @Bindable
+    public boolean isTrailerAvailable() {
+        if (trailers.getAllTrailers().size() > 0) return true;
+        return false;
+    }
+
+    public void setIsTrailerAvailable(boolean isTrailerAvailable) {
+        this.isTrailerAvailable = isTrailerAvailable;
+        notifyPropertyChanged(BR.trailerAvailable);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MovieModel && id == ((MovieModel) o).getId();
+    }
+
+    @Bindable
+    public boolean isVideoAvailable() {
+        if (videos == null) return false;
+        if (videos.getResults().size() > 0) return true;
+        return false;
+    }
+
+    public void setIsVideoAvailable(boolean isVideoAvailable) {
+        this.isVideoAvailable = isVideoAvailable;
+        notifyPropertyChanged(BR.videoAvailable);
+    }
+
+    public Videos getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Videos videos) {
+        this.videos = videos;
+        notifyPropertyChanged(BR.videoAvailable);
     }
 }

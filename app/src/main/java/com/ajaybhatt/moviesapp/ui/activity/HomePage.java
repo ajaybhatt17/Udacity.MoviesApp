@@ -5,25 +5,28 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.ajaybhatt.moviesapp.R;
 import com.ajaybhatt.moviesapp.models.DiscoverModel;
 import com.ajaybhatt.moviesapp.models.MovieModel;
 import com.ajaybhatt.moviesapp.presenter.HomePresenter;
+import com.ajaybhatt.moviesapp.tools.DatabaseSource;
 import com.ajaybhatt.moviesapp.tools.ViewUtils;
-import com.ajaybhatt.moviesapp.ui.adapter.MovieAdapter;
+import com.ajaybhatt.moviesapp.ui.fragment.MasterFragment;
+import com.ajaybhatt.moviesapp.ui.fragment.SlaveFragment;
 import com.ajaybhatt.moviesapp.ui.view.HomeView;
+import com.ajaybhatt.moviesapp.ui.view.MasterSlaveListener;
 
-import butterknife.Bind;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
-public class HomePage extends AppCompatActivity implements HomeView, AdapterView.OnItemClickListener {
+public class HomePage extends AppCompatActivity implements HomeView, MasterSlaveListener {
 
+    private SlaveFragment mSlaveFragment;
     private HomePresenter homePresenter;
+    private MasterFragment masterFragment;
 
     private static final String ORDER_DESC = "desc";
     private static final String ORDER_ASC = "asc";
@@ -31,8 +34,6 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
     private static final String FILTER_RELEASE_DATE = "release_date";
     private static final String FILTER_HIGHEST_RATED = "vote_average";
 
-    @Bind(R.id.moviesList)
-    protected GridView movieGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +42,36 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
 
         ButterKnife.bind(this);
 
-        homePresenter = new HomePresenter(getApplicationContext(), this);
+        mSlaveFragment = (SlaveFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_slave);
+
+        if (mSlaveFragment == null) {
+            masterFragment = MasterFragment.getInstance(this);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, masterFragment)
+                    .commit();
+        } else {
+            masterFragment = (MasterFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_master);
+            masterFragment.setMasterSlaveListener(this);
+        }
+
+        homePresenter = new HomePresenter(this, this);
         homePresenter.start();
         //By Default, Load most popular movies
         homePresenter.getDiscover(FILTER_POPULARITY, ORDER_DESC);
+
     }
 
 
     @Override
     public void showMovies(DiscoverModel discoverModel) {
-        MovieAdapter movieAdapter = new MovieAdapter(getApplicationContext(), discoverModel.getMovies());
-        movieGridView.setAdapter(movieAdapter);
-        movieGridView.setOnItemClickListener(this);
+        if (masterFragment != null) {
+            masterFragment.showMovies(discoverModel);
+        }
     }
 
     @Override
     public void showError(String message) {
         ViewUtils.showToast(getApplicationContext(), message);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MovieModel movieModel = (MovieModel) parent.getAdapter().getItem(position);
-        EventBus.getDefault().postSticky(movieModel);
-        Intent intent = new Intent(this, MovieDetail.class);
-        startActivity(intent);
     }
 
     @Override
@@ -83,7 +89,26 @@ public class HomePage extends AppCompatActivity implements HomeView, AdapterView
             case R.id.item_highest_rated:
                 homePresenter.getDiscover(FILTER_HIGHEST_RATED, ORDER_DESC);
                 break;
+            case R.id.item_favourite:
+                DiscoverModel discoverModel = new DiscoverModel();
+                List<MovieModel> movieModels = DatabaseSource.getObjects(this, "favourite_movies", MovieModel.class);
+                discoverModel.setMovies(movieModels);
+                showMovies(discoverModel);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onItemSelected(int position, MovieModel movieModel) {
+        if (mSlaveFragment != null) {
+            mSlaveFragment.setMovieModel(movieModel);
+        } else {
+            EventBus.getDefault().postSticky(movieModel);
+            Intent intent = new Intent(this, MovieDetail.class);
+            startActivity(intent);
+        }
+    }
+
 }
