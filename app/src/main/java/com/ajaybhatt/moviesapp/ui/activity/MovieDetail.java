@@ -1,9 +1,6 @@
 package com.ajaybhatt.moviesapp.ui.activity;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -16,14 +13,14 @@ import com.ajaybhatt.moviesapp.MyApplication;
 import com.ajaybhatt.moviesapp.R;
 import com.ajaybhatt.moviesapp.databinding.LayoutMovieDetailBinding;
 import com.ajaybhatt.moviesapp.models.MovieModel;
-import com.ajaybhatt.moviesapp.models.TrailerModel;
+import com.ajaybhatt.moviesapp.models.VideoResult;
 import com.ajaybhatt.moviesapp.presenter.MovieDetailPresenter;
+import com.ajaybhatt.moviesapp.tools.AppNavigator;
 import com.ajaybhatt.moviesapp.tools.DatabaseSource;
 import com.ajaybhatt.moviesapp.tools.ViewUtils;
 import com.ajaybhatt.moviesapp.ui.adapter.ReviewAdapter;
 import com.ajaybhatt.moviesapp.ui.adapter.TrailerAdapter;
 import com.ajaybhatt.moviesapp.ui.view.MovieDetailView;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -94,10 +91,10 @@ public class MovieDetail extends AppCompatActivity implements MovieDetailView, A
     @Override
     public void showMovieDetail(MovieModel movieModel) {
         this.movieModel.setReviews(movieModel.getReviews());
-        this.movieModel.setTrailers(movieModel.getTrailers());
+        this.movieModel.setVideos(movieModel.getVideos());
         ReviewAdapter reviewAdapter = new ReviewAdapter(this, movieModel.getReviews().getResults());
         reviews.setAdapter(reviewAdapter);
-        TrailerAdapter trailerAdapter = new TrailerAdapter(this, movieModel.getTrailers().getAllTrailers());
+        TrailerAdapter trailerAdapter = new TrailerAdapter(this, movieModel.getVideos().getResults());
         trailers.setAdapter(trailerAdapter);
         trailers.setOnItemClickListener(this);
     }
@@ -116,15 +113,8 @@ public class MovieDetail extends AppCompatActivity implements MovieDetailView, A
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Adapter parentAdapter = parent.getAdapter();
         if (parentAdapter instanceof TrailerAdapter) {
-            TrailerModel trailerModel = (TrailerModel) parentAdapter.getItem(position);
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerModel.getSource()));
-                startActivity(intent);
-            } catch (ActivityNotFoundException ex) {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.youtube.com/watch?v=" + trailerModel.getSource()));
-                startActivity(intent);
-            }
+            VideoResult trailerModel = (VideoResult) parentAdapter.getItem(position);
+            AppNavigator.navigateToTrailer(this, trailerModel);
         }
     }
 

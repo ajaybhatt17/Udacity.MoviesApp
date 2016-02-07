@@ -69,9 +69,12 @@ public class MovieModel extends BaseObservable {
 
     private Trailers trailers = new Trailers();
 
+    private Videos videos = new Videos();
+
     private boolean isFavourite;
     private boolean isReviewed;
     private boolean isTrailerAvailable;
+    private boolean isVideoAvailable;
 
     public String getPosterPath() {
         return posterPath;
@@ -282,5 +285,26 @@ public class MovieModel extends BaseObservable {
     @Override
     public boolean equals(Object o) {
         return o instanceof MovieModel && id == ((MovieModel) o).getId();
+    }
+
+    @Bindable
+    public boolean isVideoAvailable() {
+        if (videos == null) return false;
+        if (videos.getResults().size() > 0) return true;
+        return false;
+    }
+
+    public void setIsVideoAvailable(boolean isVideoAvailable) {
+        this.isVideoAvailable = isVideoAvailable;
+        notifyPropertyChanged(BR.videoAvailable);
+    }
+
+    public Videos getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Videos videos) {
+        this.videos = videos;
+        notifyPropertyChanged(BR.videoAvailable);
     }
 }

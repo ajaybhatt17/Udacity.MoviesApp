@@ -5,7 +5,7 @@
         <import type="com.ajaybhatt.moviesapp.tools.BindingAdapters"/>
         <variable
             name="trailer"
-            type="com.ajaybhatt.moviesapp.models.TrailerModel"/>
+            type="com.ajaybhatt.moviesapp.models.VideoResult"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

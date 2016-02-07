@@ -24,7 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="@{movie!=null ? View.VISIBLE : View.GONE}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -125,7 +126,7 @@
                     android:paddingRight="@dimen/spacing_16"
                     android:paddingEnd="@dimen/spacing_16"
                     android:textSize="@dimen/font_large"
-                    android:visibility="@{movie.isTrailerAvailable ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{movie.isVideoAvailable ? View.VISIBLE : View.GONE}"
                     android:textStyle="bold"/>
 
                 <ListView

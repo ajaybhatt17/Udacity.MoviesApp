@@ -11,14 +11,15 @@ import android.widget.ArrayAdapter;
 import com.ajaybhatt.moviesapp.BR;
 import com.ajaybhatt.moviesapp.R;
 import com.ajaybhatt.moviesapp.models.TrailerModel;
+import com.ajaybhatt.moviesapp.models.VideoResult;
 
 import java.util.List;
 
-public class TrailerAdapter extends ArrayAdapter<TrailerModel> {
+public class TrailerAdapter extends ArrayAdapter<VideoResult> {
 
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-    public TrailerAdapter(Context context, List<TrailerModel> objects) {
+    public TrailerAdapter(Context context, List<VideoResult> objects) {
         super(context, 0, objects);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

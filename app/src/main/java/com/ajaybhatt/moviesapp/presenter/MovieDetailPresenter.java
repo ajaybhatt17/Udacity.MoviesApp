@@ -23,7 +23,7 @@ public class MovieDetailPresenter extends Presenter<MovieDetailView> {
     }
 
     public void getMovieDetail(String movieId) {
-        movieRestCall.getDetail(movieId, Constants.getMoviesApiKey(context), "reviews,trailers");
+        movieRestCall.getDetail(movieId, Constants.getMoviesApiKey(context), "reviews,videos");
     }
 
     @Subscribe
