@@ -5,6 +5,7 @@
     <string name="menu.item.release_date">Latest Release</string>
     <string name="menu.item.highest_rated">Top Rated</string>
     <string name="menu.item.favourite">Favourite Movies</string>
+    <string name="menu.item.share">Share Trailer</string>
 
     <string name="movie_detail.release_date">Releasing on %1$s</string>
     <string name="movie_detail.rating">Rating : %1$s</string>

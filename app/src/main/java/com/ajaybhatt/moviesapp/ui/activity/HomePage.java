@@ -1,6 +1,7 @@
 package com.ajaybhatt.moviesapp.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -42,7 +43,9 @@ public class HomePage extends AppCompatActivity implements HomeView, MasterSlave
 
         ButterKnife.bind(this);
 
-        mSlaveFragment = (SlaveFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_slave);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mSlaveFragment = (SlaveFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_slave);
+        }
 
         if (mSlaveFragment == null) {
             masterFragment = MasterFragment.getInstance(this);
@@ -81,6 +84,14 @@ public class HomePage extends AppCompatActivity implements HomeView, MasterSlave
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mSlaveFragment != null && mSlaveFragment.getMovieModel() != null) {
+            menu.getItem(3).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_popularity:
@@ -95,7 +106,14 @@ public class HomePage extends AppCompatActivity implements HomeView, MasterSlave
                 discoverModel.setMovies(movieModels);
                 showMovies(discoverModel);
                 break;
-
+            case R.id.item_share:
+                if (mSlaveFragment != null) {
+                    Intent intent = ViewUtils.getShreIntent(mSlaveFragment.getMovieModel());
+                    if (intent != null) {
+                        startActivity(intent);
+                    }
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

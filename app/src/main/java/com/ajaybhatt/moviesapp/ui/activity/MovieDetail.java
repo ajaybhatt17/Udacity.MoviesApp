@@ -1,8 +1,10 @@
 package com.ajaybhatt.moviesapp.ui.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
@@ -83,6 +85,11 @@ public class MovieDetail extends AppCompatActivity implements MovieDetailView, A
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.item_share:
+                Intent intent = ViewUtils.getShreIntent(movieModel);
+                if (intent != null) {
+                    startActivity(intent);
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -134,4 +141,11 @@ public class MovieDetail extends AppCompatActivity implements MovieDetailView, A
                 break;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
 }

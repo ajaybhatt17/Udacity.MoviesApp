@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 
 import com.ajaybhatt.moviesapp.BR;
 import com.ajaybhatt.moviesapp.R;
-import com.ajaybhatt.moviesapp.models.TrailerModel;
 import com.ajaybhatt.moviesapp.models.VideoResult;
 
 import java.util.List;

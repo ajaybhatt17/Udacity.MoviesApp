@@ -99,6 +99,10 @@ public class SlaveFragment extends Fragment implements MovieDetailView, AdapterV
         movieModel.setIsFavourite(isFavourite);
     }
 
+    public MovieModel getMovieModel() {
+        return movieModel;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Adapter parentAdapter = parent.getAdapter();

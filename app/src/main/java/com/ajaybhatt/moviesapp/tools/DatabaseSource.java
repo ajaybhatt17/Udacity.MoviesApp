@@ -2,13 +2,11 @@ package com.ajaybhatt.moviesapp.tools;
 
 import android.content.Context;
 
-import com.ajaybhatt.moviesapp.models.MovieModel;
 import com.google.gson.Gson;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

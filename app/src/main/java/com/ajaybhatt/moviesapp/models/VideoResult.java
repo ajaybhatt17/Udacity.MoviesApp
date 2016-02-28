@@ -19,6 +19,9 @@ public class VideoResult {
 
     private String type;
 
+    private static final String TYPE_YOUTUBE = "YouTube";
+    private static final String TYPE_QUICKTIME = "QuickTime";
+
     public String getId() {
         return id;
     }
@@ -37,6 +40,14 @@ public class VideoResult {
 
     public String getKey() {
         return key;
+    }
+
+    public String getLink() {
+        if (type.equals(TYPE_QUICKTIME)) {
+            return String.format("http://www.quicktime.com/watch?v=%1$s", key);
+        } else {
+            return String.format("http://www.youtube.com/watch?v=%1$s", key);
+        }
     }
 
     public void setKey(String key) {

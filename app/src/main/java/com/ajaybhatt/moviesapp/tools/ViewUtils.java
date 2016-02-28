@@ -1,6 +1,7 @@
 package com.ajaybhatt.moviesapp.tools;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.ajaybhatt.moviesapp.models.MovieModel;
@@ -24,5 +25,16 @@ public class ViewUtils {
             strings.add(gson.toJson(movieModel));
         }
         return strings;
+    }
+
+    public static Intent getShreIntent(MovieModel movieModel) {
+        if (movieModel.getVideos().getResults().size()>0) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("Please watch %1$s's trailer %2$s", movieModel.getTitle(), movieModel.getVideos().getResults().get(0).getLink()));
+            sendIntent.setType("text/plain");
+            return sendIntent;
+        }
+        return null;
     }
 }
